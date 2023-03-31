@@ -1,0 +1,7 @@
+
+<div th:fragment="petphotosModal">
+    <h1>Фото</h1>
+    <div th:each="photo : ${animal.getPhotos()}" class="animal-photo">
+        <img th:src="${photo.imageUrl}" th:attr="src=@{/photos/{id}(id=${photo.id})}" alt="Animal photo" style="max-width: 150px; max-height: 150px; margin-bottom: 30px;" />
+    </div>
+</div>

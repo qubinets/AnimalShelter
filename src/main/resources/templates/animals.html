@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" /> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{title}">Приют для животных</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+<div th:replace="navbar :: navbar-bottom"></div>
+
+
+
+<div class="container mt-5">
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-dog fa-3x mb-3"></i>
+                    <h4 class="card-title"><a th:text="#{menu.animals.dogs} "></a></h4>
+                    <p class="card-text"><a th:text="#{card.dogs.text} "></a></p>
+                    <a class="btn btn-primary" th:href="@{/animals/dogs}" th:text="#{card.dogs.button} "></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-cat fa-3x mb-3"></i>
+                    <h4 class="card-title"><a th:text="#{menu.animals.cats} "></a></h4>
+                    <p class="card-text"><a th:text="#{card.cats.text} "></a></p>
+                    <a class="btn btn-primary" th:href="@{/animals/cats}" th:text="#{card.cats.button} "></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+

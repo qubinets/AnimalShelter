@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{title}">Приют для животных</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js"></script>
+</head>
+
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+<div th:replace="navbar :: navbar-bottom"></div>
+
+<!-- Вертикальное меню -->
+<div class="container mt-5">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="searchInput" placeholder="Поиск..." aria-label="Поиск">
+        <button class="btn btn-outline-secondary search-btn" type="button" id="searchButton">Найти</button>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            <div class="sidebar">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" id="loadProfile" href="#">
+                            <i class="fas fa-cog fa-3x mb-3"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" id="loadDogs" href="#">
+                            <i class="fas fa-dog fa-3x mb-3"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" id="loadCats" href="#">
+                            <i class="fas fa-cat fa-3x mb-3"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" id="loadAddPet" href="#">
+                            <i class="fas fa-plus fa-3x mb-3"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-10" id="content">
+
+            <!-- здесь будет отображаться содержимое страницы, выбранной пользователем -->
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // Обработчик клика на кнопку поиска
+        $("#searchButton").on("click", function () {
+            searchAndHighlight($("#searchInput").val());
+        });
+
+        // Обработчик нажатия клавиши Enter в поле поиска
+        $("#searchInput").on("keydown", function (e) {
+            if (e.keyCode == 13) {
+                searchAndHighlight($(this).val());
+            }
+        });
+
+        function searchAndHighlight(searchTerm) {
+            if (searchTerm) {
+                // Удалить предыдущие подсветки
+                $("#content").unmark({
+                    done: function () {
+                        // Выделить новый текст
+                        $("#content").mark(searchTerm, {
+                            separateWordSearch: true,
+                            done: function () {
+                                // Перейти к первому совпадению
+                                var firstMark = $("mark:first");
+                                if (firstMark.length) {
+                                    $("html,body").animate({
+                                        scrollTop: firstMark.offset().top - 100
+                                    }, 500);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#loadProfile').click(function (event) {
+            event.preventDefault();
+            $('#content').load('/profile');
+        });
+
+        $('#loadDogs').click(function (event) {
+            event.preventDefault();
+            $.get('/dogs', function (data) {
+                $('#content').html(data);
+            });
+        });
+
+        $('#loadCats').click(function (event) {
+            event.preventDefault();
+            $.get('/cats', function (data) {
+                $('#content').html(data);
+            });
+        });
+
+        $('#loadAddPet').click(function (event) {
+            event.preventDefault();
+            $('#content').load('/addpet', function () {
+                document.getElementById('add-pet-form').addEventListener('submit', submitForm);
+                document.getElementById('photos').addEventListener('change', previewPhotos);
+            });
+        });
+        function simulateClick() {
+            var type = document.getElementById("type").value;
+            if (type === "dog") {
+                $('#loadDogs').trigger('click');
+            } else {
+                $('#loadCats').trigger('click');
+            }
+        }
+        function submitForm(event) {
+            event.preventDefault();
+            const form = document.getElementById("add-pet-form");
+            const formData = new FormData(form);
+
+            // Удалите поле "photos" из formData, поскольку оно будет отправлено отдельно
+            formData.delete("photos");
+
+            fetch('/addpet', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: 'same-origin',
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error("Ошибка при добавлении животного.");
+                    }
+                })
+                .then((animalId) => {
+                    // Сохраните фотографии с использованием полученного animalId
+                    console.log(animalId)
+                    saveAnimalPhotos(animalId);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    document.getElementById('add-pet-result').innerHTML = "Ошибка при добавлении животного.";
+                });
+        }
+        async function saveAnimalPhotos(animalId) {
+            const form = document.getElementById("add-pet-form");
+            const formData = new FormData(form);
+
+            // Если нет выбранных фотографий, добавляем дефолтное изображение
+            const input = document.getElementById("photos");
+            if (input.files.length === 0) {
+                const defaultImage = await fetch('https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg')
+                    .then(response => response.blob())
+                    .then(blob => new File([blob], 'default_animal.jpg', {type: 'image/jpeg'}));
+
+                formData.set('photos', defaultImage);
+            }
+
+            // Удалите все поля, кроме фотографий, из formData
+            formData.delete("name");
+            formData.delete("type");
+            formData.delete("gender");
+            formData.delete("age");
+            formData.delete("arrivalDate");
+            formData.delete("origin");
+            formData.delete("vaccinated");
+            formData.delete("neutered");
+            formData.set("id", animalId);
+
+            // Загрузите фотографии, используя отдельный эндпоинт, например, '/addpetphotos'
+            fetch('/animals/' + animalId + '/photos', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin',
+            })
+                .then((response) => response.text())
+                .then((result) => {
+                    document.getElementById('add-pet-result').innerHTML = result;
+
+                    // Сброс формы
+                    form.reset();
+                    // Очистка превью фотографий
+                    const previewContainer = document.getElementById('photo-preview');
+                    previewContainer.innerHTML = '';
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    document.getElementById('add-pet-result').innerHTML = "Ошибка при добавлении фотографий животного.";
+                });
+        }
+        async function saveAnimalPhotosEdit(animalId) {
+            const form = document.getElementById("edit-pet-form");
+            const formData = new FormData(form);
+
+            // Если нет выбранных фотографий, добавляем дефолтное изображение
+            const input = document.getElementById("photos");
+
+
+            // Удалите все поля, кроме фотографий, из formData
+            formData.delete("name");
+            formData.delete("type");
+            formData.delete("gender");
+            formData.delete("age");
+            formData.delete("arrivalDate");
+            formData.delete("origin");
+            formData.delete("vaccinated");
+            formData.delete("neutered");
+            formData.set("id", animalId);
+
+            // Загрузите фотографии, используя отдельный эндпоинт, например, '/addpetphotos'
+            fetch('/animals/' + animalId + '/photos', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin',
+            })
+                .then((response) => response.text())
+                .then((result) => {
+                    document.getElementById('edit-pet-result').innerHTML = result;
+
+                    // Сброс формы
+                    form.reset();
+                    // Очистка превью фотографий
+                    const previewContainer = document.getElementById('photo-preview');
+                    previewContainer.innerHTML = '';
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    document.getElementById('edit-pet-result').innerHTML = "Ошибка при добавлении фотографий животного.";
+                });
+        }
+        function loadEditPetForm(id) {
+            $('#content').load(`/editpet/${id}`, function () {
+                const form = document.getElementById('edit-pet-form');
+                if (form) {
+                    form.addEventListener('submit', submitEditForm);
+                    document.getElementById('edit-photos').addEventListener('change', previewEditPhotos);
+                    loadPetPhotos(id).then(photosHtml => {
+                        const previewContainer = document.getElementById("edit-photo-preview");
+                        previewContainer.innerHTML = photosHtml;
+                    }).catch(error => console.error('Ошибка при загрузке фотографий:', error));
+                } else {
+                    console.error('Форма редактирования животного не найдена');
+                }
+            });
+        }
+
+        function submitEditForm(event) {
+            event.preventDefault();
+            const form = document.getElementById("edit-pet-form");
+            const formData = new FormData(form);
+            const animalId = formData.get("id");
+            formData.delete("photos");
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: 'same-origin',
+            })
+                .then((response) => response.text())
+                .then((result) => {
+                    console.log(result);
+                    console.log("ID "+ animalId);
+                    // Сохраните фотографии с использованием полученного animalId
+                    saveAnimalPhotosEdit(animalId).then(() => {
+                        // Обновите страницу с животными после сохранения изменений
+                        const type = formData.get("type");
+                        if (type === 'dog') {
+                            $('#loadDogs').trigger('click');
+                        } else {
+                            $('#loadCats').trigger('click');
+                        }
+                    }).catch((error) => {
+                        console.error("Error:", error);
+                        document.getElementById('edit-pet-result').innerHTML = "Ошибка при добавлении фотографий животного.";
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+        function previewEditPhotos() {
+            const input = document.getElementById('edit-photos');
+            const previewContainer = document.getElementById('edit-photo-preview');
+
+            previewContainer.innerHTML = '';
+
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.width = 150;
+                    img.height = 150;
+                    img.classList.add('mr-2', 'mb-2');
+                    previewContainer.appendChild(img);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function loadPetPhotos(id) {
+            const response = await fetch(`/getpetphotos/${id}`);
+            const photosHtml = await response.text();
+            return photosHtml;
+        }
+        function deletePet(id,type) {
+            fetch(`/deletepet/${id}`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin',
+            })
+                .then(() => {
+                    // Обновите страницу с животными после удаления
+                    console.log(type)
+                    if (type === "dog") {
+                        $('#loadDogs').trigger('click');
+                    } else {
+                        $('#loadCats').trigger('click');
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+        function previewPhotos() {
+            const input = document.getElementById('photos');
+            const previewContainer = document.getElementById('photo-preview');
+
+            if (input.files.length + previewContainer.childElementCount > 5) {
+                alert('Максимальное количество фотографий достигнуто (5).');
+                return;
+            }
+
+            for (const file of input.files) {
+                const existingPreview = previewContainer.querySelector(`[data-filename="${file.name}"]`);
+
+                if (!existingPreview) {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+
+                    reader.onload = (event) => {
+                        const imgWrapper = document.createElement('div');
+                        imgWrapper.setAttribute('data-filename', file.name);
+                        imgWrapper.style.position = 'relative';
+                        imgWrapper.style.display = 'inline-block';
+                        imgWrapper.style.margin = '5px';
+
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.width = 400;
+                        img.height = 300;
+
+                        const closeButton = document.createElement('button');
+                        closeButton.innerHTML = '&times;';
+                        closeButton.style.position = 'absolute';
+                        closeButton.style.right = '0';
+                        closeButton.style.top = '0';
+                        closeButton.style.background = 'red';
+                        closeButton.style.color = 'white';
+                        closeButton.style.border = 'none';
+                        closeButton.style.fontSize = '18px';
+                        closeButton.style.padding = '2px 8px';
+                        closeButton.style.cursor = 'pointer';
+
+                        closeButton.onclick = () => {
+                            previewContainer.removeChild(imgWrapper);
+                        };
+
+                        imgWrapper.appendChild(img);
+                        imgWrapper.appendChild(closeButton);
+                        previewContainer.appendChild(imgWrapper);
+                    };
+                }
+            }
+        }
+
+        // Добавьте функции loadEditPetForm и deletePet к глобальному объекту window, чтобы они были доступны из HTML
+        window.loadEditPetForm = loadEditPetForm;
+        window.deletePet = deletePet;
+        window.simulateClick = simulateClick;
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+

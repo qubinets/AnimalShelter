@@ -1,0 +1,34 @@
+<div th:fragment="dogs">
+    <h2>Список собак</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Пол</th>
+            <th>Возраст</th>
+            <th>Дата</th>
+            <th>Откуда</th>
+            <th>Вакцина</th>
+            <th>Оперировано</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dog : ${animals}">
+            <td th:text="${dog.id}"></td>
+            <td th:text="${dog.name}"></td>
+            <td> <i th:class="${dog.gender == 'male'} ? 'fas fa-mars' : 'fas fa-venus'"></i></td>
+            <td th:text="${dog.age}"></td>
+            <td th:text="${dog.arrivalDate}"></td>
+            <td th:text="${dog.origin}"></td>
+            <td> <i th:class="${dog.vaccinated} ? 'fas fa-check text-success' : 'fas fa-times text-danger'"></i></td>
+            <td> <i th:class="${dog.neutered} ? 'fas fa-check text-success' : 'fas fa-times text-danger'"></i></td>
+            <td>
+                <button type="button" class="btn btn-primary" th:onclick="'loadEditPetForm(' + ${dog.id} + ')'">Редактировать</button>
+                <button type="button" class="btn btn-danger" th:onclick="'deletePet(' + ${dog.id} + ', \'dog\')'">Удалить</button>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>

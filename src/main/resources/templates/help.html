@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" /> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{title}">Приют для животных</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+<div th:replace="navbar :: navbar-bottom"></div>
+
+<div style="text-align:center; margin-top:20px;">
+    <img src="/img/mainpic.jpg" alt="help">
+</div>
+<div style="text-align:center; margin-top:20px;">
+<a href="https://donationbox.ee/donation?campaign_title=Support%20MT%C3%9C%20Ayuda&detail=Annetus&iban=EE452200221056484378&payee=Ayuda%20Mittetulundus%C3%BChing&s1=25&s2=50&s3=100&sebuid=30b10d1e-586c-4851-99ae-26697ccdb340&sebuid_st=6daa52df-3db3-451b-8589-0ba66aabb3ee&tax=1" target="_blank">
+    <img src="https://donationbox.ee/img/db-logo-fl-ee.png" alt="DonationBox">
+</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

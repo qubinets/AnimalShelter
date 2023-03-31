@@ -1,0 +1,34 @@
+<div th:fragment="cats">
+    <h2>Список кошек</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Пол</th>
+            <th>Возраст</th>
+            <th>Дата</th>
+            <th>Откуда</th>
+            <th>Вакцина</th>
+            <th>Оперировано</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cat : ${animals}">
+            <td th:text="${cat.id}"></td>
+            <td th:text="${cat.name}"></td>
+            <td> <i th:class="${cat.gender == 'male'} ? 'fas fa-mars' : 'fas fa-venus'"></i></td>
+            <td th:text="${cat.age}"></td>
+            <td th:text="${cat.arrivalDate}"></td>
+            <td th:text="${cat.origin}"></td>
+            <td> <i th:class="${cat.vaccinated} ? 'fas fa-check text-success' : 'fas fa-times text-danger'"></i></td>
+            <td> <i th:class="${cat.neutered} ? 'fas fa-check text-success' : 'fas fa-times text-danger'"></i></td>
+            <td>
+                <button type="button" class="btn btn-primary" th:onclick="'loadEditPetForm(' + ${cat.id} + ')'">Редактировать</button>
+                <button type="button" class="btn btn-danger" th:onclick="'deletePet(' + ${cat.id} + ', \'cat\')'">Удалить</button>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>

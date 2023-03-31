@@ -1,0 +1,88 @@
+<script>
+
+    function deletePhoto(element) {
+        const photoId = element.getAttribute('data-photo-id');
+        const animalId = element.getAttribute('data-animal-id');
+        const imgElement = element.parentElement.querySelector("img");
+
+        fetch(`/animals/${animalId}/photos/${photoId}/delete`, {
+            method: 'POST'
+        }).then(response => {
+            if (response.status === 405) {
+                // Получить список фотографий животного независимо от статуса ответа, кроме 405
+                return fetch(`/getpetphotos/${animalId}`);
+            } else {
+                throw new Error('Ошибка при удалении фотографии.');
+            }
+        }).then(response => {
+            return response.text();
+        }).then(html => {
+            // Заменить содержимое элемента с идентификатором petphotos
+            document.getElementById('petphotosEdit').innerHTML = html;
+        }).catch(error => {
+            alert('Ошибка: ' + error);
+        });
+    }
+
+</script>
+<div class="container">
+    <h2 class="mb-4">Редактировать</h2>
+    <form id="edit-pet-form" th:action="@{/editpet/{id}(id=${animal.id})}" th:method="post" th:object="${animal}">
+        <!-- Ваша форма редактирования животного -->
+        <div class="button-container" style="text-align: right;">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a class="btn btn-secondary" th:href="@{/dashboard(type=${animal.type})}" onclick="simulateClick()">Отмена</a>
+
+        </div>
+        <input type="hidden" name="id" th:value="${animal.id}" />
+        <div class="mb-3">
+            <label for="name" class="form-label">Имя</label>
+            <input type="text" class="form-control" id="name" name="name" th:value="${animal.name}" placeholder="Имя животного">
+
+        </div>
+        <div class="mb-3">
+            <label for="type" class="form-label">Тип</label>
+            <select class="form-select" id="type" name="type">
+                <option th:selected="${animal.type == 'dog'}" value="dog">Собака</option>
+                <option th:selected="${animal.type == 'cat'}" value="cat">Кошка</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="gender" class="form-label">Пол</label>
+            <select class="form-select" id="gender" name="gender">
+                <option th:selected="${animal.gender == 'male'}" value="male">Мужской</option>
+                <option th:selected="${animal.gender == 'female'}" value="female">Женский</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="age" class="form-label">Возраст</label>
+            <input type="text" class="form-control" id="age" name="age" th:value="${animal.age}" placeholder="Возраст животного">
+        </div>
+        <div class="mb-3">
+            <label for="arrivalDate" class="form-label">Дата прибытия</label>
+            <input type="date" class="form-control" id="arrivalDate" name="arrivalDate" th:value="${animal.arrivalDate}" required>
+        </div>
+        <div class="mb-3">
+            <label for="origin" class="form-label">Происхождение</label>
+            <input type="text" class="form-control" id="origin" name="origin" th:value="${animal.origin}" placeholder="Происхождение животного">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="vaccinated" th:checked="${animal.vaccinated}" name="vaccinated">
+            <label class="form-check-label" for="vaccinated">Привито</label>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="neutered" th:checked="${animal.neutered}" name="neutered">
+            <label class="form-check-label" for="neutered">Стерилизовано/кастрировано</label>
+        </div>
+        <div class="mb-3 photos-container">
+            <label for="photos" class="form-label">Фотографии</label>
+            <div class="photo-container">
+                <input type="file" class="form-control" id="edit-photos" name="photos" multiple accept="image/*">
+                <div id="edit-photo-preview" class="mt-2 mb-2 d-flex flex-wrap" th:fragment="petphotosEdit" style="height: 200px; width: 100%; "></div>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>

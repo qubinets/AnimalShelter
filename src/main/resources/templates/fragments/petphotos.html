@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Фрагмент фотографий животного</title>
+    <style>
+        .animal-photo {
+            display: inline-block;
+            max-width: 150px;
+            max-height: 150px;
+            margin: 10px;
+            position: relative;
+            margin-bottom: 30px;
+            vertical-align: top; /* добавленный стиль */
+        }
+        .animal-photo .delete-photo {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+<div id="petphotosEdit">
+    <div th:each="photo : ${animalphotos}" class="animal-photo">
+        <img th:src="${photo.imageUrl}" th:attr="src=@{/photos/{id}(id=${photo.id})}" alt="Animal photo" style="max-width: 150px; max-height: 150px; margin-bottom: 30px;" />
+        <div class="delete-photo" th:attr="data-photo-id=${photo.id}, data-animal-id=${animal.id}" onclick="deletePhoto(this)">X</div>
+    </div>
+</div>
+</body>
+</html>
