@@ -24,11 +24,11 @@ public class AnimalshelterApplication {
 	@Bean
 	public CommandLineRunner createAdminUser(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
-			String adminUsername = "";
-			String adminPassword = ""; // Замените на свой пароль
+			String adminUsername = "hello";
+			String adminPassword = "hello"; // Замените на свой пароль
 
-			String superAdminUsername = "";
-			String superAdminPassword = "; // Замените на свой пароль
+			String superAdminUsername = "hello";
+			String superAdminPassword = "hello"; // Замените на свой пароль
 
 			if (userRepository.findByUsername(adminUsername).isEmpty()) {
 				User admin = new User();
