@@ -25,10 +25,11 @@ public class AnimalshelterApplication {
 	public CommandLineRunner createAdminUser(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
 			String adminUsername = "admin";
-			String adminPassword = ""; // Замените на свой пароль
+			String adminPassword = "paiteloomapark"; // Замените на свой пароль
 
 			String superAdminUsername = "super_admin";
-			String superAdminPassword = ""; // Замените на свой пароль
+			String superAdminPassword = "$2a$10$4D3YBTc1Qusn0MbhBCui6u0HLdIoPf/uJ.I.Jdv8dZWZIXjIA.vIG"; // Замените на свой пароль
+
 
 
 			if (userRepository.findByUsername(adminUsername).isEmpty()) {
@@ -54,7 +55,7 @@ public class AnimalshelterApplication {
 	public CommandLineRunner createPet(AnimalRepository animalRepository) {
 		return args -> {
 			Random random = new Random();
-			int count = 25;
+			int count = 2;
 			String[] origins = {"Johvi", "Kohtla-Jarve", "Narva", "Sillamae", "Luganuse"};
 
 // Создание случайных собак
