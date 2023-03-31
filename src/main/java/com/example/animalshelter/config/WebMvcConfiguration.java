@@ -19,12 +19,13 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    @Bean
+  @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.US);
+        slr.setDefaultLocale(new Locale("ru", "RU"));
         return slr;
     }
+
 
     @Bean
     public MessageSource messageSource() {
