@@ -21,7 +21,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/styles.css">
     <script>
-        function fetchRandomAnimal() {
+       function fetchRandomAnimal() {
             fetch('/api/randomAnimal')
                 .then(response => response.json())
                 .then(data => {
@@ -32,7 +32,6 @@
                     document.getElementById("animalName").textContent = animal;
 
                     document.getElementById("daysInShelterValue").textContent = daysInShelter;
-
 
                     const carouselInner = document.getElementById("carousel-inner");
                     carouselInner.innerHTML = ''; // Clear previous images
@@ -47,6 +46,13 @@
 
                         carouselInner.appendChild(carouselItem);
                     });
+
+                    const randomAnimalCarousel = document.getElementById("randomAnimalCarousel");
+                    if (imageUrls.length > 1) {
+                        randomAnimalCarousel.setAttribute("data-bs-ride", "carousel");
+                    } else {
+                        randomAnimalCarousel.removeAttribute("data-bs-ride");
+                    }
                 });
         }
 
