@@ -66,6 +66,11 @@ public class AnimalController {
 
         return "contact";
     }
+    @GetMapping("/faq")
+    public String faq(Model model) {
+
+        return "faq";
+    }
 
     @GetMapping("/dogs")
     public String showDogs(Model model) {
@@ -81,14 +86,7 @@ public class AnimalController {
         return "/fragments/cats";
     }
 
-    @GetMapping("/dogsPublic")
-    public String dogsPublic() {
-        return "dogsPublic";
-    }
-    @GetMapping("/catsPublic")
-    public String catsPublic() {
-        return "catsPublic";
-    }
+
 
     @GetMapping("/animals/cats")
     public String showCatsPublic(Model model,

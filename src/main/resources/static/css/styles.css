@@ -204,3 +204,6 @@ h2, h3, h4, h5, h6, p, a {
 .search-btn:hover {
     background-color: #7a3da6;
 }
+.card-equal-height {
+    min-height: 80%;
+}

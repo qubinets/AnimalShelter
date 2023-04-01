@@ -11,6 +11,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
 import java.util.Locale;
 @Configuration
@@ -19,13 +21,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-  @Bean
+    @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(new Locale("ru", "RU"));
         return slr;
     }
-
 
     @Bean
     public MessageSource messageSource() {
@@ -52,4 +53,5 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
             }
         };
     }
+
 }

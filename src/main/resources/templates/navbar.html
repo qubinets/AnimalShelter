@@ -91,6 +91,10 @@
                     <i class="fas fa-phone"></i>
                     <span th:text="#{menu.contact}" style="font-family: 'Playfair Display', serif;"></span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/faq}">
+                    <span th:text="#{menu.faq}" style="font-family: 'Playfair Display', serif;"></span></a>
+            </li>
             <li class="nav-item " th:if="${#authentication.principal != 'anonymousUser'}">
                 <a class="nav-link" th:href="@{/dashboard}">
                     <i class="fas fa-user-shield"></i>

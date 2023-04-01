@@ -11,21 +11,78 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fyg5KXQ8J0MQPi+2I010rx2h5KGfLAYuklRUrN" crossorigin="anonymous">
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/XpG5tMQLwPNIcEa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/styles.css">
-</head>
 
 <body>
 
 <div th:replace="navbar :: navbar"></div>
 <div th:replace="navbar :: navbar-bottom"></div>
 
-<div style="text-align:center; margin-top:20px;">
-    <img src="/img/mainpic.jpg" alt="help">
-</div>
-<div style="text-align:center; margin-top:20px;">
-<a href="https://donationbox.ee/donation?campaign_title=Support%20MT%C3%9C%20Ayuda&detail=Annetus&iban=EE452200221056484378&payee=Ayuda%20Mittetulundus%C3%BChing&s1=25&s2=50&s3=100&sebuid=30b10d1e-586c-4851-99ae-26697ccdb340&sebuid_st=6daa52df-3db3-451b-8589-0ba66aabb3ee&tax=1" target="_blank">
-    <img src="https://donationbox.ee/img/db-logo-fl-ee.png" alt="DonationBox">
-</a>
+<div class="container mb-lg">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="d-flex h-100">
+                <div class="card mb-5 flex-fill card-equal-height">
+                    <div class="card-header text-center">
+                        <h2><i class="fas fa-dog"></i> <span th:text="#{help.menu.dog}"></span></h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><i class="fas fa-bone"></i> <span th:text="#{help.menu.dog.corm}"></span></li>
+                            <li class="mb-3"><i class="fas fa-utensils"></i> <span th:text="#{help.menu.dog.konserv}"></span></li>
+                            <li class="mb-3"><i class="fas fa-cookie-bite"></i> <span th:text="#{help.menu.dog.lakomstva}"></span></li>
+                            <li class="mb-3"><i class="fas fa-paw"></i> <span th:text="#{help.menu.dog.povodki}"></span></li>
+                            <li class="mb-3"><i class="fas fa-dice"></i> <span th:text="#{help.menu.dog.igrushki}"></span></li>
+                            <li class="mb-3"><i class="fas fa-brush"></i> <span th:text="#{help.menu.dog.rascheski}"></span></li>
+                            <li class="mb-3"><i class="fas fa-bed"></i> <span th:text="#{help.menu.dog.beljo}"></span></li>
+                            <li class="mb-3"><i class="fas fa-couch"></i> <span th:text="#{help.menu.dog.lezak}"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="d-flex h-100">
+                <div class="card mb-5 flex-fill card-equal-height">
+                    <div class="card-header text-center">
+                        <h2><i class="fas fa-cat"></i> <span th:text="#{help.menu.cat}"></span></h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><i class="fas fa-bone"></i> <span th:text="#{help.menu.cat.corm}"></span></li>
+                            <li class="mb-3"><i class="fas fa-utensils"></i> <span th:text="#{help.menu.cat.konserv}"></span></li>
+                            <li class="mb-3"><i class="fas fa-bed"></i> <span th:text="#{help.menu.cat.lezanki}"></span></li>
+                            <li class="mb-3"><i class="fas fa-paw"></i> <span th:text="#{help.menu.cat.oshejniki}"></span></li>
+                            <li class="mb-3"><i class="fas fa-brush"></i> <span th:text="#{help.menu.cat.rascheski}"></span></li>
+                            <li class="mb-3"><i class="fas fa-dice"></i> <span th:text="#{help.menu.cat.igrushki}"></span></li>              <li class="mb-3"><i class="fas fa-couch"></i> <span th:text="#{help.menu.cat.kogtetochki}"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card mb-5">
+                <div class="card-header text-center">
+                    <h2><i class="fas fa-hand-holding-usd"></i> <span th:text="#{help.menu.money}"></span></h2>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-donate"></i> MTÜ Ayuda</p>
+                    <p><i class="fas fa-university"></i> SEB: EE851010220214610221</p>
+                    <p><i class="fas fa-university"></i> Swedbank: EE452200221056484378</p>
+                    <p><i class="fas fa-comment"></i> <span th:text="#{help.menu.money.pojasnenie}"></span>:annetus</p>
+                    <p><i class="fas fa-file-invoice"></i> <span th:text="#{help.menu.money.dek}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
