@@ -19,8 +19,17 @@
 <div th:replace="navbar :: navbar"></div>
 <div th:replace="navbar :: navbar-bottom"></div>
 
-
-
+<div class="container mt-2">
+    <div class="row mt-2">
+        <div class="col-md-8 offset-md-2 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <p th:text="#{map.description}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container mt-5">
 
     <div class="row mt-5">
