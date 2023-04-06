@@ -16,10 +16,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
@@ -77,6 +74,7 @@ public class AnimalPhotoService {
                 String fileType = file.getContentType();
                 long fileSize = file.getSize();
                 byte[] fileData = file.getBytes();
+
 
                 // Check available free space
                 long freeSpaceKb = new File(uploadDir).getUsableSpace() / 1024; // Convert bytes to KB

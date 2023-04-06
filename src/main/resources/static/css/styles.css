@@ -49,7 +49,7 @@
     margin: auto !important;
     display: flex;
     justify-content: space-between;
-    width: 50%;
+    width: 55%;
 }
 h1 {
     font-family: 'Lobster', cursive;
@@ -206,4 +206,25 @@ h2, h3, h4, h5, h6, p, a {
 }
 .card-equal-height {
     min-height: 80%;
+}
+.content-wrapper {
+    position: relative;
+}
+.image-container {
+    position: absolute;
+    top: 0;
+    width: 768px;
+    height: 768px;
+}
+.left-image {
+    left: 0;
+    transform: translateX(-45%) scale(0.9); /* Сдвигает левое изображение влево на 50% своей ширины */
+}
+.right-image {
+    right: 0;
+    transform: translateX(60%); /* Сдвигает правое изображение вправо на 50% своей ширины */
+}
+.image-container img {
+    width: 80%;
+    height: auto;
 }

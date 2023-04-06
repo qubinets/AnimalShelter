@@ -100,37 +100,56 @@
     });
 </script>
 <script>
+    // Когда документ полностью загружен и готов, запустится следующий код
     $(document).ready(function () {
+
+        // При нажатии на кнопку 'loadProfile', загрузить профиль пользователя
+        // предотвращая стандартное поведение ссылки (переход по адресу)
         $('#loadProfile').click(function (event) {
             event.preventDefault();
+            // Загрузка содержимого профиля в элемент с id 'content'
             $('#content').load('/profile');
         });
 
+        // При нажатии на кнопку 'loadDogs', загрузить список собак
         $('#loadDogs').click(function (event) {
             event.preventDefault();
+            // Отправка GET-запроса на адрес '/dogs'
             $.get('/dogs', function (data) {
+                // Замена содержимого элемента с id 'content' на полученные данные (список собак)
                 $('#content').html(data);
             });
         });
 
+        // При нажатии на кнопку 'loadCats', загрузить список кошек
         $('#loadCats').click(function (event) {
             event.preventDefault();
+            // Отправка GET-запроса на адрес '/cats'
             $.get('/cats', function (data) {
+                // Замена содержимого элемента с id 'content' на полученные данные (список кошек)
                 $('#content').html(data);
             });
         });
 
+        // При нажатии на кнопку 'loadAddPet', загрузить форму добавления питомца
         $('#loadAddPet').click(function (event) {
             event.preventDefault();
+            // Загрузка содержимого формы добавления питомца в элемент с id 'content'
             $('#content').load('/addpet', function () {
+                // После загрузки формы, добавить обработчики событий для отправки формы и предпросмотра фотографий
                 document.getElementById('add-pet-form').addEventListener('submit', submitForm);
                 document.getElementById('photos').addEventListener('change', previewPhotos);
             });
         });
+
+        // Функция для имитации клика на кнопку в зависимости от выбранного типа питомца
         function simulateClick() {
+            // Получение значения поля "type" (тип питомца)
             var type = document.getElementById("type").value;
+            // Если выбран тип "dog" (собака), имитируем клик на кнопку 'loadDogs'
             if (type === "dog") {
                 $('#loadDogs').trigger('click');
+                // В противном случае, имитируем клик на кнопку 'loadCats'
             } else {
                 $('#loadCats').trigger('click');
             }

@@ -1,12 +1,14 @@
 <script>
-
     function deletePhoto(element) {
         const photoId = element.getAttribute('data-photo-id');
         const animalId = element.getAttribute('data-animal-id');
         const imgElement = element.parentElement.querySelector("img");
 
         fetch(`/animals/${animalId}/photos/${photoId}/delete`, {
-            method: 'POST'
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
         }).then(response => {
             if (response.status === 405) {
                 // Получить список фотографий животного независимо от статуса ответа, кроме 405
@@ -20,7 +22,7 @@
             // Заменить содержимое элемента с идентификатором petphotos
             document.getElementById('petphotosEdit').innerHTML = html;
         }).catch(error => {
-            alert('Ошибка: ' + error);
+            console.log('Ошибка: ' + error);
         });
     }
 

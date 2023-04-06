@@ -13,8 +13,6 @@ public class RandomAnimalDTO {
 
     private Long id;
 
-
-
     private List<String> imageUrls;
 
     public List<String> getImageUrls() {
