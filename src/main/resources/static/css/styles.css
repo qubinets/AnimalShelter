@@ -228,3 +228,8 @@ h2, h3, h4, h5, h6, p, a {
     width: 80%;
     height: auto;
 }
+@media (max-width: 768px) {
+    .image-container img {
+        display: none;
+    }
+}

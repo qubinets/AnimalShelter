@@ -14,6 +14,7 @@
                 // Получить список фотографий животного независимо от статуса ответа, кроме 405
                 return fetch(`/getpetphotos/${animalId}`);
             } else {
+                return fetch(`/getpetphotos/${animalId}`);
                 throw new Error('Ошибка при удалении фотографии.');
             }
         }).then(response => {
